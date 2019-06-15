@@ -17,4 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::resource('draws', 'Backend\DrawController')
+     ->only(['create', 'store']);
+
 Route::get('/home', 'HomeController@index')->name('home');

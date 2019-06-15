@@ -165,6 +165,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
+        Lecturize\Taxonomies\TaxonomiesServiceProvider::class,
 
         /*
          * Application Service Providers...
