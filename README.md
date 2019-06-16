@@ -4,6 +4,9 @@
 ## Setting up admin account
 `php artisan make:admin`
 
-## Test
-- Test only includes feature testing for 'drawing', and 'winning number generation' feature.
-run `vendor/bin/phpunit` in the project root to run the test cases.
+## Tests
+Ensure that you have a database called 'test' before running `vendor/bin/phpunit`. 
+
+#### Test cases only includes the following features.
+ - Drawing of Winning Numbers
+ - Winning Number Generation
