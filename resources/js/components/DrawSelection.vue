@@ -84,7 +84,7 @@
              * Save the draw result.
              */
             submit() {
-                // if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
+                if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
 
                 axios.post('/backend/draws', {
                     type : this.selectedPrizeType,
@@ -108,7 +108,8 @@
              */
             reset() {
                 this.selectedPrizeType = -1;
-                this.winningNumber = null
+                this.winningNumber = null;
+                this.errors = null;
             },
 
             /**
