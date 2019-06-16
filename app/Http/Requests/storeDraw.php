@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\PrizeTypes;
+use App\Rules\NumberMustNotBelongToWinner;
 use App\Rules\ReachedPrizeTypeLimit;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,8 +28,18 @@ class storeDraw extends FormRequest
     public function rules()
     {
         return [
-            'type'   => ['required', Rule::in(PrizeTypes::toArray()), new ReachedPrizeTypeLimit],
-            'number' => ['required', 'numeric', 'exists:numbers,value', 'unique:draws,number'],
+            'type'   => [
+                'required',
+                Rule::in(PrizeTypes::toArray()),
+                new ReachedPrizeTypeLimit,
+            ],
+            'number' => [
+                'required',
+                'numeric',
+                'exists:numbers,value',
+                'unique:draws,number',
+                new NumberMustNotBelongToWinner,
+            ],
         ];
     }
 }
