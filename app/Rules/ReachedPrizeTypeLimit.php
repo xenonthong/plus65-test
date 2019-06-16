@@ -42,6 +42,6 @@ class ReachedPrizeTypeLimit implements Rule
                 $max = 1;
         }
 
-        return Draw::where('type', 'second prize')->count() < $max;
+        return Draw::where('type', $value)->count() < $max;
     }
 }

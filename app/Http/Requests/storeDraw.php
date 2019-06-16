@@ -29,11 +29,13 @@ class storeDraw extends FormRequest
     {
         return [
             'type'   => [
+                'bail',
                 'required',
                 Rule::in(PrizeTypes::toArray()),
                 new ReachedPrizeTypeLimit,
             ],
             'number' => [
+                'bail',
                 'required',
                 'numeric',
                 'exists:numbers,value',

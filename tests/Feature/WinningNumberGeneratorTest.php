@@ -20,10 +20,9 @@ class WinningNumberGeneratorTest extends TestCase
         $types = PrizeTypes::toArray();
         $key   = array_rand($types);
 
-        $response = $this->actingAs($user)
-                         ->json('get', '/backend/winning-number', [
-                             'prize_type' => $types[$key],
-                         ]);
+        $response = $this->actingAs($user)->json('get', '/backend/winning-number', [
+            'prize_type' => $types[$key],
+        ]);
 
         $this->assertStringContainsString('value', $response->content());
     }
@@ -39,10 +38,9 @@ class WinningNumberGeneratorTest extends TestCase
     public function test_admin_cannot_generate_winning_number_with_invalid_prize_type()
     {
         $user     = $this->createAdminUser();
-        $response = $this->actingAs($user)
-                         ->json('get', '/backend/winning-number', [
-                             'prize_type' => 'just a test',
-                         ]);
+        $response = $this->actingAs($user)->json('get', '/backend/winning-number', [
+            'prize_type' => 'just a test',
+        ]);
 
         $response->assertStatus(422);
     }
@@ -60,10 +58,9 @@ class WinningNumberGeneratorTest extends TestCase
         $user          = $this->createAdminUser();
         $highest_count = Number::highestCountByUsers();
         $user_ids      = User::withMoreThanNumberCount($highest_count - 1)->pluck('id');
-        $response      = $this->actingAs($user)
-                              ->json('get', '/backend/winning-number', [
-                                  'prize_type' => (string)PrizeTypes::FIRST(),
-                              ]);
+        $response      = $this->actingAs($user)->json('get', '/backend/winning-number', [
+            'prize_type' => (string)PrizeTypes::FIRST(),
+        ]);
         $number        = json_decode($response->content());
 
         $this->assertTrue($user_ids->contains($number->user_id));
@@ -75,10 +72,9 @@ class WinningNumberGeneratorTest extends TestCase
         $highest_count = Number::highestCountByUsers();
         $user_ids      = User::withLessThanNumberCount($highest_count)->pluck('id');
         $types         = [(string)PrizeTypes::SECOND(), (string)PrizeTypes::THIRD()];
-        $response      = $this->actingAs($user)
-                              ->json('get', '/backend/winning-number', [
-                                  'prize_type' => Arr::random($types),
-                              ]);
+        $response      = $this->actingAs($user)->json('get', '/backend/winning-number', [
+            'prize_type' => Arr::random($types),
+        ]);
         $number        = json_decode($response->content());
 
         $this->assertTrue($user_ids->contains($number->user_id));
@@ -86,14 +82,11 @@ class WinningNumberGeneratorTest extends TestCase
 
     public function test_user_cannot_generate_winning_number_with_valid_prize_type()
     {
-        $user  = $this->createUser();
-        $types = PrizeTypes::toArray();
-        $key   = array_rand($types);
+        $user = $this->createUser();
 
-        $response = $this->actingAs($user)
-                         ->json('get', '/backend/winning-number', [
-                             'prize_type' => $types[$key],
-                         ]);
+        $response = $this->actingAs($user)->json('get', '/backend/winning-number', [
+            'prize_type' => Arr::random(PrizeTypes::toArray()),
+        ]);
 
         $response->assertStatus(403);
     }

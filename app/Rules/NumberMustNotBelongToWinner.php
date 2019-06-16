@@ -21,6 +21,8 @@ class NumberMustNotBelongToWinner implements Rule
     {
         $number = Number::where('value', $value)->first();
 
+        if (!$number) return true;
+
         return Draw::where('user_id', $number->user_id)->doesntExist();
     }
 
