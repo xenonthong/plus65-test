@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\storeDraw;
 use App\Models\Draw;
-use Illuminate\Http\Request;
 
 class DrawController extends Controller
 {
@@ -25,11 +25,11 @@ class DrawController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDraw $request)
     {
         return Draw::create([
-            'type'   => $request->params['type'],
-            'number' => $request->params['number'],
+            'type'   => $request->type,
+            'number' => $request->number,
         ]);
     }
 }

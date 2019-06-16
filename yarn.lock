@@ -3184,6 +3184,11 @@ laravel-mix@^4.0.7:
     webpack-notifier "^1.5.1"
     yargs "^12.0.5"
 
+laravel-vue-validator@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/laravel-vue-validator/-/laravel-vue-validator-1.0.7.tgz#ccae2f640525dd45c611c0a56656728419c33157"
+  integrity sha512-6dLy54phNvuP9qI+ajLz8l+1HXNCohN/czyj8+CdbTZ1TR6J0n4pV64xcw9y4XOgHOh9B1+Sg/bOcfeX80KyoA==
+
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-3.0.0.tgz#9742df0e10e3cf46e5c0381c2de90d3a7a2d7555"

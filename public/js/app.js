@@ -1889,13 +1889,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['prizeTypes'],
   data: function data() {
     return {
       selectedPrizeType: -1,
-      winningNumber: null
+      winningNumber: null,
+      errors: null
     };
   },
   methods: {
@@ -1943,18 +1950,20 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this3 = this;
 
-      if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
+      // if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
       axios.post('/backend/draws', {
-        params: {
-          type: this.selectedPrizeType,
-          number: this.winningNumber
-        }
+        type: this.selectedPrizeType,
+        number: this.winningNumber
       }).then(function (res) {
         _this3.winningNumber = res.data.value;
 
         _this3.reset();
 
         _this3.$toasted.success("The number has been added to the draw result.");
+      })["catch"](function (error) {
+        if (error.response.status === 422) {
+          _this3.errors = error.response.data.errors;
+        }
       });
     },
 
@@ -37246,6 +37255,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _vm.errors
+      ? _c("div", { staticClass: "bg-danger text-white py-3 mb-2" }, [
+          _c(
+            "ul",
+            { staticClass: "mb-0" },
+            _vm._l(_vm.errors, function(error) {
+              return _c("li", [_vm._v(_vm._s(error[0]))])
+            }),
+            0
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "input-group mb-3" }, [
       _c(
         "select",

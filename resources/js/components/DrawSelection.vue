@@ -1,5 +1,11 @@
 <template>
     <div>
+        <div class="bg-danger text-white py-3 mb-2" v-if="errors">
+            <ul class="mb-0">
+                <li v-for="error in errors">{{ error[0] }}</li>
+            </ul>
+        </div>
+
         <div class="input-group mb-3">
             <select class="custom-select text-capitalize" v-model="selectedPrizeType" @change="clearNumber">
                 <option value="-1" disabled>Select Option</option>
@@ -34,7 +40,8 @@
         data() {
             return {
                 selectedPrizeType : -1,
-                winningNumber : null
+                winningNumber : null,
+                errors : null,
             }
         },
 
@@ -77,13 +84,11 @@
              * Save the draw result.
              */
             submit() {
-                if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
+                // if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
 
                 axios.post('/backend/draws', {
-                    params : {
-                        type : this.selectedPrizeType,
-                        number : this.winningNumber
-                    }
+                    type : this.selectedPrizeType,
+                    number : this.winningNumber,
                 })
                      .then((res) => {
                          this.winningNumber = res.data.value;
@@ -91,6 +96,11 @@
                          this.reset();
                          this.$toasted.success(`The number has been added to the draw result.`);
                      })
+                     .catch((error) => {
+                         if (error.response.status === 422) {
+                             this.errors = error.response.data.errors;
+                         }
+                     });
             },
 
             /**

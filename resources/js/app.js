@@ -24,9 +24,7 @@ window.Vue = require('vue');
 
 Vue.component('draw-selection', require('./components/DrawSelection.vue').default);
 
-Vue.use(Toasted, {
-    duration: 5000
-});
+Vue.use(Toasted, {duration : 5000});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -35,5 +33,5 @@ Vue.use(Toasted, {
  */
 
 const app = new Vue({
-    el: '#app',
+    el : '#app',
 });

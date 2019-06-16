@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Draws\Generator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\showWinningNumber;
-use Illuminate\Http\Request;
 
 class WinningNumberController extends Controller
 {
