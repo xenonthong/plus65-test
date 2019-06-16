@@ -39,6 +39,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * User's winning number.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function draw()
+    {
+        return $this->hasOne(Draw::class);
+    }
+
+    /**
      * Numbers that the user has.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -48,23 +58,27 @@ class User extends Authenticatable
         return $this->hasMany(Number::class);
     }
 
+    /**
+     * Get users where post is less than count.
+     *
+     * @param $count
+     *
+     * @return mixed
+     */
     public static function withLessThanNumberCount($count)
     {
         return self::has('numbers', '<', $count);
     }
 
+    /**
+     * Get users where post is more than count.
+     *
+     * @param $count
+     *
+     * @return mixed
+     */
     public static function withMoreThanNumberCount($count)
     {
         return self::has('numbers', '>', $count);
-    }
-
-    /**
-     * User's winning number.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function draw()
-    {
-        return $this->hasOne(Draw::class);
     }
 }
