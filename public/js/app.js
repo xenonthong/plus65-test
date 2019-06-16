@@ -1899,10 +1899,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    /**
+     * Generate a number based on the selected prize type.
+     */
     generate: function generate() {
       var _this = this;
 
-      if (!this.canGenerate()) return this.$toasted.error('Please provide a valid prize type');
+      if (!this.isValidPrizeType()) return this.$toasted.error('Please provide a valid prize type');
       axios.get('/backend/winning-number', {
         params: {
           prize_type: this.selectedPrizeType
@@ -1919,12 +1922,55 @@ __webpack_require__.r(__webpack_exports__);
      *
      * @return {boolean}
      */
-    canGenerate: function canGenerate() {
+    isValidPrizeType: function isValidPrizeType() {
       var _this2 = this;
 
       return typeof Object(lodash__WEBPACK_IMPORTED_MODULE_0__["find"])(this.prizeTypes, function (type) {
         return type === _this2.selectedPrizeType;
       }) !== 'undefined';
+    },
+
+    /**
+     * Checks if user can save the draw result.
+     */
+    canSubmit: function canSubmit() {
+      return this.isValidPrizeType() && this.winningNumber;
+    },
+
+    /**
+     * Save the draw result.
+     */
+    submit: function submit() {
+      var _this3 = this;
+
+      if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
+      axios.post('/backend/draws', {
+        params: {
+          type: this.selectedPrizeType,
+          number: this.winningNumber
+        }
+      }).then(function (res) {
+        _this3.winningNumber = res.data.value;
+
+        _this3.reset();
+
+        _this3.$toasted.success("The number has been added to the draw result.");
+      });
+    },
+
+    /**
+     * Reset all data.
+     */
+    reset: function reset() {
+      this.selectedPrizeType = -1;
+      this.winningNumber = null;
+    },
+
+    /**
+     * Clear winning number.
+     */
+    clearNumber: function clearNumber() {
+      this.winningNumber = null;
     }
   },
   computed: {}
@@ -37214,19 +37260,22 @@ var render = function() {
           ],
           staticClass: "custom-select text-capitalize",
           on: {
-            change: function($event) {
-              var $$selectedVal = Array.prototype.filter
-                .call($event.target.options, function(o) {
-                  return o.selected
-                })
-                .map(function(o) {
-                  var val = "_value" in o ? o._value : o.value
-                  return val
-                })
-              _vm.selectedPrizeType = $event.target.multiple
-                ? $$selectedVal
-                : $$selectedVal[0]
-            }
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.selectedPrizeType = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              _vm.clearNumber
+            ]
           }
         },
         [
@@ -37282,8 +37331,8 @@ var render = function() {
     _vm._v(" "),
     _c(
       "button",
-      { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-      [_vm._v("Button")]
+      { staticClass: "btn btn-primary", on: { click: _vm.submit } },
+      [_vm._v("Save")]
     )
   ])
 }
