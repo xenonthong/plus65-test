@@ -15,9 +15,11 @@ Route::view('/', 'index');
 
 Auth::routes();
 
-Route::prefix('backend')->group(function () {
-    Route::resource('draws', 'Backend\DrawController')->only(['create', 'store']);
-    Route::get('winning-number', 'Backend\WinningNumberController@show');
+Route::group(['middleware' => ['auth', 'role:admin']], function() {
+    Route::prefix('backend')->group(function () {
+        Route::resource('draws', 'Backend\DrawController')->only(['create', 'store']);
+        Route::get('winning-number', 'Backend\WinningNumberController@show');
+    });
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
