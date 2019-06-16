@@ -8,8 +8,13 @@ class Draw extends Model
 {
     protected $guarded = [];
 
-    public function drawnNumber()
+    /**
+     * The winner of the draw.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
     {
-        return $this->hasOne(Number::class, 'value', 'number')->withDefault();
+        return $this->belongsTo(User::class)->withDefault();
     }
 }

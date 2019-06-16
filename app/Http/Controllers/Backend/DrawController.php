@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\storeDraw;
 use App\Models\Draw;
+use App\Models\Number;
 
 class DrawController extends Controller
 {
@@ -27,9 +28,12 @@ class DrawController extends Controller
      */
     public function store(StoreDraw $request)
     {
+        $number = Number::where('value', $request->number)->first();
+
         return Draw::create([
-            'type'   => $request->type,
-            'number' => $request->number,
+            'type'    => $request->type,
+            'number'  => $number->value,
+            'user_id' => $number->user_id,
         ]);
     }
 }

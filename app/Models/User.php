@@ -57,4 +57,14 @@ class User extends Authenticatable
     {
         return self::has('numbers', '>', $count);
     }
+
+    /**
+     * User's winning number.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function draw()
+    {
+        return $this->hasOne(Draw::class);
+    }
 }

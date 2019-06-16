@@ -27,6 +27,7 @@ class CreateDrawsTable extends Migration
         Schema::create('draws', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('number')->unique();
+            $table->unsignedBigInteger('user_id')->unique();
             $table->enum('type', PrizeTypes::toArray());
             $table->timestamps();
         });

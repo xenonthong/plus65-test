@@ -16,7 +16,7 @@ class DrawResults
      */
     public function compose(View $view)
     {
-        $draws = Draw::with(['drawnNumber.user'])
+        $draws = Draw::with(['user'])
                      ->orderBy('created_at', 'desc')
                      ->take(6)
                      ->get();

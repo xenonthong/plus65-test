@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        @if ($draws)
+        @if ($draws->isNotEmpty())
             <h3>Draw results</h3>
 
             <table class="table">
@@ -19,8 +19,8 @@
                     <tr class="text-capitalize">
                         <th scope="row">{{ $draw->id }}</th>
                         <td>
-                            @if ($draw->drawnNumber->user->id)
-                                {{ $draw->drawnNumber->user->name }} (ID: {{ $draw->drawnNumber->user->id }})
+                            @if ($draw->user->id)
+                                {{ $draw->user->name }} (ID: {{ $draw->user->id }})
                             @endif
                         </td>
                         <td>{{ $draw->number }}</td>
