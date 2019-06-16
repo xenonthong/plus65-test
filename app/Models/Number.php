@@ -14,6 +14,19 @@ class Number extends Model
     protected $fillable = ['value'];
 
     /**
+     * Return highest number of numbers owned by users.
+     *
+     * @return mixed
+     */
+    public static function highestCountByUsers()
+    {
+        return self::selectRaw('user_id, count(*) as aggregate')
+                   ->groupBy('user_id')
+                   ->get()
+                   ->max('aggregate');
+    }
+
+    /**
      * User that owns this number.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

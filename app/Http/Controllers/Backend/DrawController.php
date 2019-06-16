@@ -14,7 +14,7 @@ class DrawController extends Controller
      */
     public function create()
     {
-        return view('backend.draw.create');
+        return view('backend.draws.create');
     }
 
     /**

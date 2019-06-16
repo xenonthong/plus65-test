@@ -47,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Number::class);
     }
+
+    public static function withLessThanNumberCount($count)
+    {
+        return self::has('numbers', '<', $count);
+    }
+
+    public static function withMoreThanNumberCount($count)
+    {
+        return self::has('numbers', '>', $count);
+    }
 }

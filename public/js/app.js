@@ -1883,10 +1883,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
+  props: ['prizeTypes'],
+  data: function data() {
+    return {
+      selectedPrizeType: -1,
+      winningNumber: null
+    };
+  },
+  methods: {
+    generate: function generate() {
+      var _this = this;
+
+      axios.get('/backend/winning-number', {
+        params: {
+          prize_type: this.selectedPrizeType
+        }
+      }).then(function (res) {
+        _this.winningNumber = res.data.value;
+      });
+    }
+  },
+  computed: {}
 });
 
 /***/ }),
@@ -37158,59 +37180,95 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "input-group mb-3" }, [
-        _c("select", { staticClass: "custom-select" }, [
-          _c("option", { attrs: { selected: "" } }, [
-            _vm._v("Open this select menu")
+  return _c("div", [
+    _c("div", { staticClass: "input-group mb-3" }, [
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.selectedPrizeType,
+              expression: "selectedPrizeType"
+            }
+          ],
+          staticClass: "custom-select text-capitalize",
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.selectedPrizeType = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        [
+          _c("option", { attrs: { value: "-1", disabled: "" } }, [
+            _vm._v("Select Option")
           ]),
           _vm._v(" "),
-          _c("option", { attrs: { value: "1" } }, [_vm._v("One")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "2" } }, [_vm._v("Two")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "3" } }, [_vm._v("Three")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group mb-3" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            placeholder: "",
-            "aria-label": "",
-            "aria-describedby": "basic-addon1"
-          }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "input-group-append" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-outline-secondary",
-              attrs: { type: "button" }
-            },
-            [_vm._v("Generate Random Number")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-        [_vm._v("Button")]
+          _vm._l(_vm.prizeTypes, function(prizeType) {
+            return _c("option", { domProps: { value: prizeType } }, [
+              _vm._v(_vm._s(prizeType))
+            ])
+          })
+        ],
+        2
       )
-    ])
-  }
-]
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "input-group mb-3" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.winningNumber,
+            expression: "winningNumber"
+          }
+        ],
+        staticClass: "form-control",
+        attrs: { type: "text", placeholder: "123456" },
+        domProps: { value: _vm.winningNumber },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.winningNumber = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "input-group-append" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-outline-secondary",
+            attrs: { type: "button" },
+            on: { click: _vm.generate }
+          },
+          [_vm._v("Generate Random Number\n            ")]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "button",
+      { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+      [_vm._v("Button")]
+    )
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

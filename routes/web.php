@@ -17,7 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('draws', 'Backend\DrawController')
-     ->only(['create', 'store']);
+Route::prefix('backend')->group(function () {
+    Route::resource('draws', 'Backend\DrawController')->only(['create', 'store']);
+    Route::get('winning-number', 'Backend\WinningNumberController@show');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
