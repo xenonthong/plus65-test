@@ -6,7 +6,10 @@
 
 require('./bootstrap');
 
+import Toasted from 'vue-toasted';
+
 window.Vue = require('vue');
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -20,6 +23,10 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('draw-selection', require('./components/DrawSelection.vue').default);
+
+Vue.use(Toasted, {
+    duration: 5000
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

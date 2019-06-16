@@ -26,6 +26,8 @@
 </template>
 
 <script>
+    import { find } from 'lodash';
+
     export default {
         props : ['prizeTypes'],
 
@@ -38,6 +40,8 @@
 
         methods : {
             generate() {
+                if (!this.canGenerate()) return this.$toasted.error('Please provide a valid prize type');
+
                 axios.get('/backend/winning-number', {
                     params : {
                         prize_type : this.selectedPrizeType
@@ -45,10 +49,23 @@
                 })
                      .then((res) => {
                          this.winningNumber = res.data.value;
+
+                         this.$toasted.success(`A number has been generated for ${this.selectedPrizeType}`);
                      })
             },
+
+            /**
+             * Checks if the option selected exist in our select options.
+             *
+             * @return {boolean}
+             */
+            canGenerate() {
+                return typeof find(this.prizeTypes, (type) => type === this.selectedPrizeType) !== 'undefined';
+            }
         },
 
-        computed : {}
+        computed : {
+
+        }
     }
 </script>
