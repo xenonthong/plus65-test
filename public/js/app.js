@@ -1950,7 +1950,7 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this3 = this;
 
-      // if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
+      if (!this.canSubmit()) return this.$toasted.error('Please ensure that the select option and number is valid');
       axios.post('/backend/draws', {
         type: this.selectedPrizeType,
         number: this.winningNumber
@@ -1973,6 +1973,7 @@ __webpack_require__.r(__webpack_exports__);
     reset: function reset() {
       this.selectedPrizeType = -1;
       this.winningNumber = null;
+      this.errors = null;
     },
 
     /**
